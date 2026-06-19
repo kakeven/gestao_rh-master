@@ -10,5 +10,11 @@ class Funcionarios(models.Model):
     departamentos = models.ManyToManyField(Departamento)
     empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT)
 
+
+    class Meta:
+        verbose_name = "Funcionário"
+        verbose_name_plural = "Funcionários"
+
     def __str__(self):
         return self.name
+
