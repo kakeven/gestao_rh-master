@@ -15,6 +15,9 @@ class LogAuditoriaAdmin(admin.ModelAdmin):
     readonly_fields = ('usuario', 'acao', 'descricao', 'data_hora')
     actions         = None 
 
-#Aqui é para remover o botao padrao de adicionar do propio Django, para não adicionar logs, apenas receber
+#Aqui é para remover o botao padrao de adicionar do propio Django, para não adicionar logs e a outra para que não seja modificado, apenas receber
     def has_add_permission(self, request):
+        return False
+    
+    def has_change_permission(self, request, obj=None):
         return False
