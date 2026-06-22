@@ -6,13 +6,13 @@ from django.db import migrations
 #Função onde cria 3 tipos de grupos com as permisões especificas
 #Acessamos o model de grupos e de permissoes
 def criar_grupos(apps, schema_editor):
-    Group = apps.get_model('auth', 'Group')
-    Permission = apps.get_model('auth', 'Permission')
+    group = apps.get_model('auth', 'group')
+    permission = apps.get_model('auth', 'Permission')
 
 #Aqui buscamos as 4 permissões automaticas de uma model, onde pegamos
 #o nome do app e do model 
     def get_perms(app, model):
-        return Permission.objects.filter(
+        return permission.objects.filter(
             content_type__app_label=app,
             content_type__model=model
         )
@@ -20,7 +20,7 @@ def criar_grupos(apps, schema_editor):
     #GERENTE DE RH
     #Criamos o grupo de permissões para o Gerente de RH e colocamos quais vai ser as permissões
     #Recebendo o CRUD completo
-    gerente, _ = Group.objects.get_or_create(name='Gerente de RH')
+    gerente, _ = group.objects.get_or_create(name='Gerente de RH')
     gerente.permissions.set([
         *get_perms('funcionarios', 'funcionarios'),
         *get_perms('departamentos', 'departamento'),
@@ -32,11 +32,11 @@ def criar_grupos(apps, schema_editor):
     ])
 
     #ADMINISTRADOR DO SISTEMA
-    admin, _ = Group.objects.get_or_create(name='Administrador do Sistema')
-    admin.permissions.set(Permission.objects.all())
+    admin, _ = group.objects.get_or_create(name='Administrador do Sistema')
+    admin.permissions.set(permission.objects.all())
 
     #FUNCIONÁRIO DE RH
-    funcionario, _ = Group.objects.get_or_create(name='Funcionário de RH')
+    funcionario, _ = group.objects.get_or_create(name='Funcionário de RH')
     funcionario.permissions.set([
         *get_perms('documentos', 'documento'),
         *get_perms('registro_hora_extra', 'registrohoraextra'),
